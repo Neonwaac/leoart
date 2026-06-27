@@ -1,0 +1,385 @@
+# LEOART - FIRESTORE DATA MODEL
+
+Versión: 1.0
+Estado: Arquitectura Base Congelada
+
+---
+
+# collections
+
+Colección:
+
+collections/{collectionId}
+
+Documento:
+
+```json
+{
+  "id": "collection-1",
+
+  "name": "Materia",
+
+  "description": "Investigación sobre textura, volumen y composición",
+
+  "coverImageUrl": "https://...",
+
+  "published": true,
+
+  "displayOrder": 1,
+
+  "createdAt": Timestamp,
+
+  "updatedAt": Timestamp
+}
+```
+
+---
+
+# artists
+
+Colección:
+
+artists/{artistId}
+
+Documento:
+
+```json
+{
+  "id": "artist-1",
+
+  "name": "Leonardo Rivera",
+
+  "bio": "Artista visual colombiano.",
+
+  "quote": "El arte es memoria convertida en imagen.",
+
+  "photoUrl": "https://...",
+
+  "profession": "Artista Visual",
+
+  "email": "contacto@leoart.com",
+
+  "website": "https://leoart.com",
+
+  "location": "Mocoa, Colombia",
+
+  "socialLinks": {
+      "instagram": "https://instagram.com/...",
+      "facebook": "https://facebook.com/...",
+      "behance": "https://behance.net/..."
+  },
+
+  "published": true,
+
+  "createdAt": Timestamp,
+
+  "updatedAt": Timestamp
+}
+```
+
+---
+
+# techniques
+
+Colección:
+
+techniques/{techniqueId}
+
+Documento:
+
+```json
+{
+   "id":"technique-1",
+
+   "name":"Óleo",
+
+   "description":"Óleo sobre lienzo",
+
+   "published":true,
+
+   "createdAt":Timestamp,
+
+   "updatedAt":Timestamp
+}
+```
+
+---
+
+# artworks
+
+Colección:
+
+artworks/{artworkId}
+
+Documento:
+
+```json
+{
+  "id": "artwork-0001",
+
+  "title": "Materia",
+
+  "description":
+      "Investigación sobre textura, volumen y composición",
+
+  "imageUrl":
+      "https://res.cloudinary.com/...",
+
+  "thumbnailUrl":
+      "https://res.cloudinary.com/...",
+
+  "blurHash":
+      "LEHV6nWB2yk8pyo0adR*.7kCMdnj",
+
+  "artistId":
+      "artist-1",
+
+  "collectionIds": [
+      "collection-1"
+  ],
+
+  "techniqueIds": [
+      "technique-1"
+  ],
+
+  "aspectRatio":
+      1.50,
+
+  "featured":
+      true,
+
+  "featuredOrder":
+      1,
+
+  "published":
+      true,
+
+  "createdAt":
+      Timestamp,
+
+  "updatedAt":
+      Timestamp
+}
+```
+
+---
+
+# settings
+
+Documento único
+
+settings/app
+
+```json
+{
+   "appName":"LeoArt",
+
+   "appDescription":
+      "Galería digital de arte contemporáneo.",
+
+   "logoUrl":"https://...",
+
+   "faviconUrl":"https://...",
+
+   "primaryColor":"#D8A84A",
+
+   "maintenanceMode":false,
+
+   "email":"contacto@leoart.com",
+
+   "socialLinks":{
+      "instagram":"...",
+      "facebook":"...",
+      "behance":"..."
+   },
+
+   "updatedAt":Timestamp,
+
+   "createdAt":Timestamp
+}
+```
+
+---
+
+# Cloudinary
+
+Carpetas
+
+leoart/artworks/
+
+leoart/collections/
+
+leoart/artist/
+
+leoart/app/
+
+---
+
+# Convenciones
+
+Artwork IDs
+
+artwork-0001
+
+artwork-0002
+
+artwork-0003
+
+Collection IDs
+
+collection-1
+
+collection-2
+
+Artist IDs
+
+artist-1
+
+artist-2
+
+Technique IDs
+
+technique-1
+
+technique-2
+
+---
+
+# Home
+
+Featured artworks
+
+Query:
+
+```dart
+.where('published', isEqualTo: true)
+.where('featured', isEqualTo: true)
+.orderBy('featuredOrder')
+```
+
+---
+
+Collections
+
+```dart
+.where('published', isEqualTo: true)
+.orderBy('displayOrder')
+```
+
+---
+
+Catalog
+
+```dart
+.where('published', isEqualTo: true)
+.orderBy('createdAt', descending: true)
+```
+
+---
+
+Artworks by Collection
+
+```dart
+.where('published', isEqualTo: true)
+.where('collectionIds',
+       arrayContains: collectionId)
+```
+
+---
+
+Artworks by Artist
+
+```dart
+.where('published', isEqualTo: true)
+.where('artistId',
+       isEqualTo: artistId)
+```
+
+---
+
+# Índices Firestore
+
+artworks
+
+published ASC
+
+featured ASC
+
+featuredOrder ASC
+
+---
+
+artworks
+
+published ASC
+
+displayOrder ASC
+
+---
+
+artworks
+
+published ASC
+
+artistId ASC
+
+displayOrder ASC
+
+---
+
+artworks
+
+published ASC
+
+collectionIds ARRAY_CONTAINS
+
+displayOrder ASC
+
+---
+
+collections
+
+published ASC
+
+displayOrder ASC
+
+---
+
+# LeoArt decisión arquitectónica
+
+published
+
+campo obligatorio
+
+featuredOrder
+
+campo obligatorio
+
+displayOrder
+
+solo para collections
+
+NO usar coverImageUrl en artworks
+
+NO usar image en artworks
+
+NO usar name en artworks
+
+Artworks utilizan:
+
+title
+
+imageUrl
+
+thumbnailUrl
+
+featuredOrder
+
+collectionIds
+
+artistId
+
+techniqueIds
+
+```
+```

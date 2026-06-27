@@ -1,0 +1,32 @@
+name: leoart
+publish_to: none
+description: LeoArt monorepo
+
+environment:
+  sdk: ^3.12.2
+
+workspace:
+  - apps/leoart_app
+  - apps/leoart_admin
+  - packages/shared
+
+dev_dependencies:
+  melos: ^8.0.0
+
+melos:
+  scripts:
+    analyze:
+      description: Analyze all packages
+      run: melos exec -- dart analyze
+    format:
+      description: Format all Dart files
+      run: melos exec -- dart format .
+    get:
+      description: Get dependencies for all packages
+      run: melos exec -- flutter pub get
+    build:app:
+      description: Build leoart_app
+      run: melos exec --scope=leoart_app -- flutter build apk
+    build:admin:
+      description: Build leoart_admin
+      run: melos exec --scope=leoart_admin -- flutter build apk

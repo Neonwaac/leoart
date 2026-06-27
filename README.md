@@ -1,69 +1,64 @@
 # LeoArt
 
-LeoArt es una aplicación móvil desarrollada en Flutter que permite a un artista exhibir y gestionar sus obras de arte en una galería digital moderna. La aplicación está diseñada para ofrecer una experiencia visual elegante, permitiendo a los usuarios explorar colecciones, conocer los detalles de cada obra y, en futuras versiones, realizar compras.
+LeoArt es una plataforma compuesta por dos aplicaciones Flutter independientes que comparten un mismo dominio de negocio.
+
+## Aplicaciones
+
+- **leoart_app**: Aplicación pública para clientes (Android, iOS)
+- **leoart_admin**: Panel de administración (Android, iOS, Web, Windows)
 
 ## Tecnologías
 
-- Flutter
-- Firebase Authentication
-- Cloud Firestore
-- Cloudinary
+- Flutter 3.44+
+- Riverpod (estado global)
+- GoRouter (navegación)
+- Freezed + json_serializable (modelos inmutables)
+- Firebase (autenticación, Firestore)
+- Cloudinary (almacenamiento de imágenes)
 - Material 3
-
-## Características
-
-- Catálogo de obras estilo galería.
-- Información detallada de cada obra.
-- Gestión de colecciones.
-- Perfil del artista.
-- Modo claro y modo oscuro.
-- Panel de administración para gestionar obras.
-- Almacenamiento de imágenes mediante Cloudinary.
-- Datos almacenados en Cloud Firestore.
+- Melos (gestión del monorepo)
 
 ## Estructura del proyecto
 
-```text
+```
+leoart/
+├── apps/
+│   ├── leoart_app/
+│   └── leoart_admin/
+├── packages/
+│   └── shared/
+├── docs/
+├── prompts/
+├── melos.yaml (deprecated - uses pub workspaces)
+├── pubspec.yaml
+├── analysis_options.yaml
+├── .gitignore
+└── README.md
+```
+
+## Arquitectura Flutter
+
+Cada aplicación sigue una arquitectura Feature First con Clean Architecture ligera:
+
+```
 lib/
-├── assets/
-├── components/
+├── core/
 ├── features/
-├── models/
+├── shared/
 ├── services/
-├── themes/
-├── utils/
-├── views/
+├── navigation/
+├── theme/
 └── main.dart
 ```
 
 ## Configuración
 
 1. Clonar el repositorio.
+2. Ejecutar `dart pub get` en la raíz.
+3. Configurar las credenciales de Cloudinary (ver `.env.example`).
+4. Ejecutar la aplicación con `flutter run`.
 
-```bash
-git clone <repository-url>
-```
+## Configuración de Firebase
 
-2. Instalar las dependencias.
-
-```bash
-flutter pub get
-```
-
-3. Configurar Firebase para Android e iOS.
-
-4. Configurar las credenciales de Cloudinary.
-
-5. Ejecutar la aplicación.
-
-```bash
-flutter run
-```
-
-## Arquitectura
-
-La aplicación sigue una arquitectura modular orientada a facilitar el mantenimiento y la escalabilidad del proyecto. Firestore almacena toda la información estructurada, mientras que Cloudinary gestiona el almacenamiento y distribución de las imágenes.
-
-## Estado del proyecto
-
-Actualmente el proyecto se encuentra en desarrollo.
+Los archivos de configuración de Firebase se gestionan mediante FlutterFire CLI.
+Los archivos específicos de cada plataforma ya están ubicados en sus directorios correspondientes.
