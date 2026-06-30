@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:shared/core/design/app_durations.dart';
 
 class AppNetworkImage extends StatefulWidget {
@@ -9,6 +10,7 @@ class AppNetworkImage extends StatefulWidget {
   final BoxFit fit;
   final double borderRadius;
   final String? placeholderAsset;
+  final String? blurHash;
 
   const AppNetworkImage({
     super.key,
@@ -19,6 +21,7 @@ class AppNetworkImage extends StatefulWidget {
     this.fit = BoxFit.cover,
     this.borderRadius = 0,
     this.placeholderAsset,
+    this.blurHash,
   });
 
   @override
@@ -60,6 +63,43 @@ class _AppNetworkImageState extends State<AppNetworkImage> {
       return _buildPlaceholder(
         Icons.broken_image_outlined,
         theme.colorScheme.onSurfaceVariant.withAlpha(80),
+      );
+    }
+
+    if (widget.blurHash != null && !_loaded) {
+      return Stack(
+        fit: StackFit.expand,
+        children: [
+          BlurHash(hash: widget.blurHash!),
+          Image.network(
+            widget.imageUrl,
+            fit: widget.fit,
+            width: widget.width,
+            height: widget.height,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (mounted && !_loaded) {
+                    setState(() => _loaded = true);
+                  }
+                });
+                return child;
+              }
+              return const SizedBox.shrink();
+            },
+            errorBuilder: (context, error, stackTrace) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted && !_failed) {
+                  setState(() => _failed = true);
+                }
+              });
+              return _buildPlaceholder(
+                Icons.broken_image_outlined,
+                theme.colorScheme.onSurfaceVariant.withAlpha(80),
+              );
+            },
+          ),
+        ],
       );
     }
 

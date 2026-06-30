@@ -48,7 +48,7 @@ class ArtistScreen extends ConsumerWidget {
                     FadeAnimation(
                       child: SlideAnimation(
                         begin: const Offset(0, 0.04),
-                        duration: AppDurations.slow,
+                        duration: AppDurations.fast,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: AppSpacing.md),
@@ -60,23 +60,23 @@ class ArtistScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.md),
                     FadeAnimation(
                       child: SlideAnimation(
                         begin: const Offset(0, 0.04),
-                        duration: AppDurations.slow,
+                        duration: AppDurations.fast,
                         child: const Padding(
                           padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
                           child: AppDivider(),
                         ),
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.md),
                     if (artist.bio != null)
                       FadeAnimation(
                         child: SlideAnimation(
                           begin: const Offset(0, 0.04),
-                          duration: AppDurations.slow,
+                          duration: AppDurations.fast,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                             child: ArtistBiography(text: artist.bio!),
@@ -84,23 +84,23 @@ class ArtistScreen extends ConsumerWidget {
                         ),
                       ),
                     if (artist.bio != null) ...[
-                      const SizedBox(height: AppSpacing.xl),
+                      const SizedBox(height: AppSpacing.md),
                       FadeAnimation(
                         child: SlideAnimation(
                           begin: const Offset(0, 0.04),
-                          duration: AppDurations.slow,
+                          duration: AppDurations.fast,
                           child: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
                             child: AppDivider(),
                           ),
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.xl),
+                      const SizedBox(height: AppSpacing.md),
                     ],
                     FadeAnimation(
                       child: SlideAnimation(
                         begin: const Offset(0, 0.04),
-                        duration: AppDurations.slow,
+                        duration: AppDurations.fast,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                           child: _SocialAndContact(
@@ -110,11 +110,11 @@ class ArtistScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.md),
                     FadeAnimation(
                       child: SlideAnimation(
                         begin: const Offset(0, 0.04),
-                        duration: AppDurations.slow,
+                        duration: AppDurations.fast,
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(
                             AppSpacing.md,
@@ -128,22 +128,22 @@ class ArtistScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.md),
                     FadeAnimation(
                       child: SlideAnimation(
                         begin: const Offset(0, 0.04),
-                        duration: AppDurations.slow,
+                        duration: AppDurations.fast,
                         child: const Padding(
                           padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
                           child: AppDivider(),
                         ),
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.md),
                     FadeAnimation(
                       child: SlideAnimation(
                         begin: const Offset(0, 0.04),
-                        duration: AppDurations.slow,
+                        duration: AppDurations.fast,
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(
                             AppSpacing.md,
@@ -203,7 +203,7 @@ class _SocialAndContact extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         socialSection,
-        const SizedBox(height: AppSpacing.xl),
+        const SizedBox(height: AppSpacing.md),
         contactSection,
       ],
     );
@@ -268,7 +268,7 @@ class _ContactCta extends StatelessWidget {
                 height: 1.6,
               ),
             ),
-            const SizedBox(height: AppSpacing.xl),
+            const SizedBox(height: AppSpacing.md),
             SizedBox(
               height: 48,
               child: OutlinedButton.icon(

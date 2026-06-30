@@ -132,7 +132,7 @@ class _StandardCard extends StatelessWidget {
             heroTag: heroTag,
             aspectRatio: 16 / 9,
           ),
-          const SizedBox(height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.sm),
           CollectionInfo(
             name: collection.name,
             description: collection.description,

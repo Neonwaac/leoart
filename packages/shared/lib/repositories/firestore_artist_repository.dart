@@ -86,10 +86,16 @@ class FirestoreArtistRepository implements ArtistRepository {
   }
 
   @override
-  Future<Artist> create(Artist artist) {
+  Future<Artist> create(Artist artist) async {
+    final id = await _firestoreService.getNextId(
+      path: _collectionPath,
+      prefix: 'artist-',
+    );
+    final withId = artist.copyWith(id: id);
     return _firestoreService.create(
       path: _collectionPath,
-      data: artist,
+      data: withId,
+      id: id,
       fromJson: _artistFromJson,
       toJson: _artistToJson,
     );

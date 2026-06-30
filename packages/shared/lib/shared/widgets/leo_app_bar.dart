@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared/core/design/app_spacing.dart';
 import 'package:shared/shared/widgets/leoart_logo.dart';
 
 class LeoAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -24,13 +25,13 @@ class LeoAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final bg = backgroundColor ?? theme.colorScheme.surfaceContainerHigh;
+    final bg = backgroundColor ?? theme.colorScheme.surface;
     final canPop = GoRouter.of(context).canPop();
     final effectiveShowBack = showBack ?? canPop;
 
     return Container(
       height: 72,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       decoration: BoxDecoration(
         color: bg,
       ),

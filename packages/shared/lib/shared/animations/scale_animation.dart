@@ -10,7 +10,7 @@ class ScaleAnimation extends StatefulWidget {
   const ScaleAnimation({
     super.key,
     required this.child,
-    this.duration = AppDurations.normal,
+    this.duration = AppDurations.fast,
     this.begin = 0.95,
     this.end = 1.0,
   });
@@ -31,7 +31,7 @@ class _ScaleAnimationState extends State<ScaleAnimation>
     _animation = Tween<double>(
       begin: widget.begin,
       end: widget.end,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
     _controller.forward();
   }
 

@@ -6,6 +6,7 @@ class DetailHeroImage extends StatelessWidget {
   final String heroTag;
   final double aspectRatio;
   final double opacity;
+  final String? blurHash;
 
   const DetailHeroImage({
     super.key,
@@ -13,6 +14,7 @@ class DetailHeroImage extends StatelessWidget {
     required this.heroTag,
     this.aspectRatio = 1.0,
     this.opacity = 1.0,
+    this.blurHash,
   });
 
   @override
@@ -26,6 +28,7 @@ class DetailHeroImage extends StatelessWidget {
         aspectRatio: aspectRatio,
         borderRadius: 0,
         fit: BoxFit.cover,
+        blurHash: blurHash,
       ),
     );
   }

@@ -34,7 +34,7 @@ class ArtworkGrid extends StatelessWidget {
   }
 
   Widget _buildMasonry(BuildContext context, double totalWidth, int columns) {
-    const gap = 16.0;
+    const gap = AppSpacing.md;
     final colWidth = (totalWidth - (columns - 1) * gap) / columns;
 
     final columnChildren = List.generate(columns, (_) => <Widget>[]);
@@ -126,10 +126,10 @@ class _StaggeredTileState extends State<_StaggeredTile> {
       );
     }
     return FadeAnimation(
-      duration: AppDurations.slow,
+      duration: AppDurations.normal,
       child: SlideAnimation(
         begin: const Offset(0, 0.06),
-        duration: AppDurations.slow,
+        duration: AppDurations.fast,
         child: widget.child,
       ),
     );

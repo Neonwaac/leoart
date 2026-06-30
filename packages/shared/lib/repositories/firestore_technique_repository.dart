@@ -68,10 +68,16 @@ class FirestoreTechniqueRepository implements TechniqueRepository {
   }
 
   @override
-  Future<Technique> create(Technique technique) {
+  Future<Technique> create(Technique technique) async {
+    final id = await _firestoreService.getNextId(
+      path: _collectionPath,
+      prefix: 'technique-',
+    );
+    final withId = technique.copyWith(id: id);
     return _firestoreService.create(
       path: _collectionPath,
-      data: technique,
+      data: withId,
+      id: id,
       fromJson: _techniqueFromJson,
       toJson: _techniqueToJson,
     );

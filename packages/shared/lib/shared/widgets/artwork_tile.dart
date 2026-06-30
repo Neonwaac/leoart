@@ -34,6 +34,7 @@ class ArtworkTile extends StatelessWidget {
               width: double.infinity,
               borderRadius: 0,
               fit: BoxFit.cover,
+              blurHash: artwork.blurHash,
             ),
           ),
         ),

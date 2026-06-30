@@ -56,13 +56,13 @@ class CollectionsScreen extends ConsumerWidget {
                       return FadeAnimation(
                         child: SlideAnimation(
                           begin: const Offset(0, 0.04),
-                          duration: AppDurations.slow,
+                          duration: AppDurations.fast,
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(
                               AppSpacing.md,
-                              index == 0 ? 0 : AppSpacing.xl,
+                              index == 0 ? 0 : AppSpacing.lg,
                               AppSpacing.md,
-                              AppSpacing.xl,
+                              AppSpacing.lg,
                             ),
                             child: _CollectionBlock(
                               collection: collection,
@@ -192,9 +192,9 @@ class _LoadingSkeleton extends StatelessWidget {
             return Padding(
               padding: EdgeInsets.fromLTRB(
                 AppSpacing.md,
-                index == 0 ? 0 : AppSpacing.xl,
+                index == 0 ? 0 : AppSpacing.lg,
                 AppSpacing.md,
-                AppSpacing.xl,
+                AppSpacing.lg,
               ),
               child: AspectRatio(
                 aspectRatio: 16 / 9,

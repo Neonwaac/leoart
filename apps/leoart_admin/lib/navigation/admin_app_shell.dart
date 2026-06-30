@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared/shared.dart';
 
-class AdminAppShell extends StatelessWidget {
+class AdminAppShell extends ConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
   const AdminAppShell({super.key, required this.navigationShell});
@@ -36,16 +37,16 @@ class AdminAppShell extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.sizeOf(context).width;
     final isWide = width >= AppSpacing.breakpointMedium;
 
     return LayoutBuilder(
       builder: (context, constraints) {
         if (isWide) {
-          return _WideLayout(navigationShell: navigationShell);
+          return _WideLayout(navigationShell: navigationShell, ref: ref);
         }
-        return _CompactLayout(navigationShell: navigationShell);
+        return _CompactLayout(navigationShell: navigationShell, ref: ref);
       },
     );
   }
@@ -53,12 +54,39 @@ class AdminAppShell extends StatelessWidget {
 
 class _CompactLayout extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
+  final WidgetRef ref;
 
-  const _CompactLayout({required this.navigationShell});
+  const _CompactLayout({required this.navigationShell, required this.ref});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    void signOut() async {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Cerrar sesión'),
+          content: const Text('¿Estás seguro de cerrar sesión?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: const Text('Cerrar sesión'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed == true) {
+        final authService = ref.read(authServiceProvider);
+        await authService.signOut();
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('LeoArt Admin'),
@@ -100,7 +128,7 @@ class _CompactLayout extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Cerrar sesión'),
-              onTap: () {},
+              onTap: signOut,
             ),
           ],
         ),
@@ -112,12 +140,39 @@ class _CompactLayout extends StatelessWidget {
 
 class _WideLayout extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
+  final WidgetRef ref;
 
-  const _WideLayout({required this.navigationShell});
+  const _WideLayout({required this.navigationShell, required this.ref});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    void signOut() async {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Cerrar sesión'),
+          content: const Text('¿Estás seguro de cerrar sesión?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: const Text('Cerrar sesión'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed == true) {
+        final authService = ref.read(authServiceProvider);
+        await authService.signOut();
+      }
+    }
+
     return Scaffold(
       body: Row(
         children: [
@@ -151,6 +206,11 @@ class _WideLayout extends StatelessWidget {
                     icon: const Icon(Icons.person_outlined),
                     tooltip: 'Perfil',
                     onPressed: () => context.go('/profile'),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.logout),
+                    tooltip: 'Cerrar sesión',
+                    onPressed: signOut,
                   ),
                 ],
               ),

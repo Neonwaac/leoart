@@ -10,7 +10,7 @@ class SlideAnimation extends StatefulWidget {
   const SlideAnimation({
     super.key,
     required this.child,
-    this.duration = AppDurations.normal,
+    this.duration = AppDurations.fast,
     this.begin = const Offset(0, 0.1),
     this.end = Offset.zero,
   });
@@ -31,7 +31,7 @@ class _SlideAnimationState extends State<SlideAnimation>
     _animation = Tween<Offset>(
       begin: widget.begin,
       end: widget.end,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
     _controller.forward();
   }
 

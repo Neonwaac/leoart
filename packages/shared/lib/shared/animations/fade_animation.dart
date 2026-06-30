@@ -11,7 +11,7 @@ class FadeAnimation extends StatefulWidget {
   const FadeAnimation({
     super.key,
     required this.child,
-    this.duration = AppDurations.normal,
+    this.duration = AppDurations.fast,
     this.begin = 0.0,
     this.end = 1.0,
     this.animate = true,
@@ -33,7 +33,7 @@ class _FadeAnimationState extends State<FadeAnimation>
     _animation = Tween<double>(
       begin: widget.begin,
       end: widget.end,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
     if (widget.animate) {
       _controller.forward();
     } else {

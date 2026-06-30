@@ -94,10 +94,16 @@ class FirestoreCollectionRepository implements CollectionRepository {
   }
 
   @override
-  Future<Collection> create(Collection collection) {
+  Future<Collection> create(Collection collection) async {
+    final id = await _firestoreService.getNextId(
+      path: _collectionPath,
+      prefix: 'collection-',
+    );
+    final withId = collection.copyWith(id: id);
     return _firestoreService.create(
       path: _collectionPath,
-      data: collection,
+      data: withId,
+      id: id,
       fromJson: _collectionFromJson,
       toJson: _collectionToJson,
     );

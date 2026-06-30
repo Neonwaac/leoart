@@ -32,9 +32,11 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
-
+/seed
+.env.copy
 # Symbolication related
 app.*.symbols
+data.json
 
 # Obfuscation related
 app.*.map.json

@@ -15,8 +15,6 @@ class FeaturedArtworkSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isWide =
-        MediaQuery.sizeOf(context).width > AppSpacing.breakpointMedium;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
@@ -48,7 +46,6 @@ class FeaturedArtworkSection extends StatelessWidget {
           FeaturedArtworkCard(
             artwork: artwork,
             techniqueName: techniqueName,
-            height: isWide ? 560 : 360,
             onTap: () {
               if (artwork.id != null) {
                 context.push('/catalog/${artwork.id}');

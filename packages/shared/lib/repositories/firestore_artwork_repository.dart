@@ -131,6 +131,19 @@ class FirestoreArtworkRepository implements ArtworkRepository {
   }
 
   @override
+  Stream<Artwork?> watchByFieldId(String id) {
+    final query = _firestoreService.firestore
+        .collection(_collectionPath)
+        .where('id', isEqualTo: id)
+        .limit(1);
+    return _firestoreService.watchAll(
+      path: _collectionPath,
+      fromJson: _artworkFromJson,
+      query: query,
+    ).map((list) => list.isNotEmpty ? list.first : null);
+  }
+
+  @override
   Future<List<Artwork>> getAll({bool? published}) async {
     Query<Map<String, dynamic>>? query;
     if (published != null) {
@@ -155,10 +168,17 @@ class FirestoreArtworkRepository implements ArtworkRepository {
   }
 
   @override
-  Future<Artwork> create(Artwork artwork) {
+  Future<Artwork> create(Artwork artwork) async {
+    final id = await _firestoreService.getNextId(
+      path: _collectionPath,
+      prefix: 'artwork-',
+      padLength: 4,
+    );
+    final withId = artwork.copyWith(id: id);
     return _firestoreService.create(
       path: _collectionPath,
-      data: artwork,
+      data: withId,
+      id: id,
       fromJson: _artworkFromJson,
       toJson: _artworkToJson,
     );

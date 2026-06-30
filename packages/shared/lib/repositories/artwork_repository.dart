@@ -7,6 +7,7 @@ abstract class ArtworkRepository {
   Stream<List<Artwork>> watchByCollection(String collectionId);
   Stream<List<Artwork>> watchByArtist(String artistId);
   Stream<Artwork?> watchById(String id);
+  Stream<Artwork?> watchByFieldId(String id);
   Future<List<Artwork>> getAll({bool? published});
   Future<Artwork?> getById(String id);
   Future<Artwork> create(Artwork artwork);

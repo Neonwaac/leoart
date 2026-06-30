@@ -9,14 +9,12 @@ class FeaturedArtworkCard extends StatelessWidget {
   final Artwork artwork;
   final String? techniqueName;
   final VoidCallback? onTap;
-  final double height;
 
   const FeaturedArtworkCard({
     super.key,
     required this.artwork,
     this.techniqueName,
     this.onTap,
-    this.height = 420,
   });
 
   @override
@@ -28,21 +26,14 @@ class FeaturedArtworkCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: height,
+          HeroArtworkImage(
+            imageUrl: artwork.imageUrl,
+            heroTag: 'artwork_${artwork.id}',
             width: double.infinity,
-            child: Stack(
-              children: [
-                HeroArtworkImage(
-                  imageUrl: artwork.imageUrl,
-                  heroTag: 'artwork_${artwork.id}',
-                  width: double.infinity,
-                  borderRadius: AppRadius.md,
-                  aspectRatio: artwork.aspectRatio,
-                  fit: BoxFit.cover,
-                ),
-              ],
-            ),
+            borderRadius: AppRadius.md,
+            aspectRatio: artwork.aspectRatio,
+            fit: BoxFit.cover,
+            blurHash: artwork.blurHash,
           ),
           const SizedBox(height: AppSpacing.md),
           Padding(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:shared/core/design/app_radius.dart';
 
 class CollectionHeroImage extends StatelessWidget {
@@ -6,6 +7,7 @@ class CollectionHeroImage extends StatelessWidget {
   final String? heroTag;
   final double aspectRatio;
   final double borderRadius;
+  final String? blurHash;
 
   const CollectionHeroImage({
     super.key,
@@ -13,6 +15,7 @@ class CollectionHeroImage extends StatelessWidget {
     this.heroTag,
     this.aspectRatio = 16 / 9,
     this.borderRadius = AppRadius.md,
+    this.blurHash,
   });
 
   @override
@@ -25,15 +28,10 @@ class CollectionHeroImage extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
         child: hasImage
-            ? Image.network(
-                imageUrl!,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    _Placeholder(theme: theme),
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return _Placeholder(theme: theme);
-                },
+            ? _BlurHashNetworkImage(
+                imageUrl: imageUrl!,
+                blurHash: blurHash,
+                theme: theme,
               )
             : _Placeholder(theme: theme),
       ),
@@ -44,6 +42,89 @@ class CollectionHeroImage extends StatelessWidget {
     }
 
     return image;
+  }
+}
+
+class _BlurHashNetworkImage extends StatefulWidget {
+  final String imageUrl;
+  final String? blurHash;
+  final ThemeData theme;
+
+  const _BlurHashNetworkImage({
+    required this.imageUrl,
+    this.blurHash,
+    required this.theme,
+  });
+
+  @override
+  State<_BlurHashNetworkImage> createState() => _BlurHashNetworkImageState();
+}
+
+class _BlurHashNetworkImageState extends State<_BlurHashNetworkImage> {
+  bool _loaded = false;
+  bool _failed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (_failed) {
+      return _Placeholder(theme: widget.theme);
+    }
+
+    if (widget.blurHash != null && !_loaded) {
+      return Stack(
+        fit: StackFit.expand,
+        children: [
+          BlurHash(hash: widget.blurHash!),
+          Image.network(
+            widget.imageUrl,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (mounted && !_loaded) {
+                    setState(() => _loaded = true);
+                  }
+                });
+                return child;
+              }
+              return const SizedBox.shrink();
+            },
+            errorBuilder: (context, error, stackTrace) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted && !_failed) {
+                  setState(() => _failed = true);
+                }
+              });
+              return _Placeholder(theme: widget.theme);
+            },
+          ),
+        ],
+      );
+    }
+
+    return Image.network(
+      widget.imageUrl,
+      fit: BoxFit.cover,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted && !_loaded) {
+              setState(() => _loaded = true);
+            }
+          });
+          return child;
+        }
+        return _Placeholder(theme: widget.theme);
+      },
+      errorBuilder: (context, error, stackTrace) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted && !_failed) {
+            setState(() => _failed = true);
+          }
+        });
+        return _Placeholder(theme: widget.theme);
+      },
+    );
   }
 }
 

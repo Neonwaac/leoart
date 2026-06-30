@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.leoart.admin"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

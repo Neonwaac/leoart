@@ -14,7 +14,7 @@ final featuredArtworksProvider = StreamProvider<List<Artwork>>((ref) {
 final artworkProvider =
     StreamProvider.family<Artwork?, String>((ref, id) {
   final repository = ref.watch(artworkRepositoryProvider);
-  return repository.watchById(id);
+  return repository.watchByFieldId(id);
 });
 
 final collectionArtworksProvider =

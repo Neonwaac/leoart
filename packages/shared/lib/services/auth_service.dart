@@ -29,6 +29,25 @@ class AuthService {
     }
   }
 
+  Future<firebase.User?> createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final result = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return result.user;
+    } on firebase.FirebaseAuthException catch (e) {
+      throw AuthenticationException(
+        message: e.message ?? 'Registration failed',
+        code: e.code,
+        stackTrace: StackTrace.current,
+      );
+    }
+  }
+
   Future<void> signOut() async {
     try {
       await _auth.signOut();

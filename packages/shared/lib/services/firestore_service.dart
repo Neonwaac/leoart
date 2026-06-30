@@ -142,4 +142,36 @@ class FirestoreService {
               : null,
         );
   }
+
+  Future<String> getNextId({
+    required String path,
+    required String prefix,
+    int padLength = 0,
+  }) async {
+    try {
+      final snapshot = await _firestore.collection(path).get();
+      var maxNum = 0;
+      for (final doc in snapshot.docs) {
+        final id = doc.id;
+        if (id.startsWith(prefix)) {
+          final suffix = id.substring(prefix.length);
+          final num = int.tryParse(suffix);
+          if (num != null && num > maxNum) {
+            maxNum = num;
+          }
+        }
+      }
+      final nextNum = maxNum + 1;
+      final formatted = padLength > 0
+          ? nextNum.toString().padLeft(padLength, '0')
+          : nextNum.toString();
+      return '$prefix$formatted';
+    } on FirebaseException catch (e) {
+      throw FirestoreException(
+        message: 'Failed to generate next ID',
+        code: e.code,
+        stackTrace: StackTrace.current,
+      );
+    }
+  }
 }
